@@ -4,6 +4,8 @@ import { useState, useRef } from 'react'
 import { ThemeToggle } from '@/components/ThemeToggle'
 import { MermaidDiagram } from '@/components/MermaidDiagram'
 import { ClipboardDocumentIcon, ArrowDownTrayIcon } from '@heroicons/react/24/outline'
+import { RiRobot2Fill } from 'react-icons/ri'
+import { BeakerIcon } from '@heroicons/react/24/solid'
 
 export default function Home() {
   // State variables
@@ -159,7 +161,8 @@ export default function Home() {
     <main className="min-h-screen p-6 bg-white dark:bg-gray-900 dark:text-white">
       <div className="w-[80%] mx-auto min-h-[60vh]">
         <div className="flex justify-between items-center mb-6">
-          <h1 className="text-3xl font-bold">
+          <h1 className="text-3xl font-bold flex items-center gap-2">
+            <BeakerIcon className="h-8 w-8 text-indigo-500" />
             AI Mermaid Diagram Generator
           </h1>
           <ThemeToggle />
@@ -176,6 +179,16 @@ export default function Home() {
               value={inputText}
               onChange={(e) => setInputText(e.target.value)}
             />
+
+            {/* Add explanatory text above the buttons */}
+            <div className="mb-4 p-3 bg-gray-100 dark:bg-gray-800 rounded-md">
+              <h3 className="font-semibold text-lg mb-2">Choose a diagram type:</h3>
+              <ul className="list-disc pl-5 space-y-1 text-sm">
+                <li><span className="text-blue-600 dark:text-blue-400 font-medium">Structure:</span> Generates a hierarchical diagram showing relationships and organization of concepts.</li>
+                <li><span className="text-green-600 dark:text-green-400 font-medium">Time-Structure:</span> Creates a timeline or flowchart showing sequential processes or temporal relationships.</li>
+                <li><span className="text-purple-600 dark:text-purple-400 font-medium">Concept Map:</span> Builds a network diagram connecting related ideas, terms, and their relationships.</li>
+              </ul>
+            </div>
 
             <div className="flex flex-wrap gap-3">
               <button

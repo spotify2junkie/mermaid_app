@@ -113,7 +113,6 @@ async function callLLMAPI(prompt: string, apiKey: string): Promise<string> {
     } else if (mermaidCode.startsWith('```')) {
       mermaidCode = mermaidCode.replace(/^```\n/, '').replace(/```$/, '');
     }
-    console.log(mermaidCode);
     return mermaidCode;
   } catch (error) {
     console.error('Error calling LLM API:', error);
