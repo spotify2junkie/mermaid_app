@@ -81,7 +81,7 @@ async function callLLMAPI(prompt: string, apiKey: string): Promise<string> {
         'Authorization': `Bearer ${apiKey}`
       },
       body: JSON.stringify({
-        model: 'gpt-4-turbo',
+        model: 'gpt-4',
         messages: [
           {
             role: 'system',

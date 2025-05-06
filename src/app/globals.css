@@ -24,3 +24,19 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+.mermaid-container {
+  background-color: transparent;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  width: 100%;
+  overflow: auto;
+}
+
+.mermaid-container svg {
+  background-color: transparent !important;
+}
+
+.dark .mermaid-container {
+  color-scheme: dark;
+}

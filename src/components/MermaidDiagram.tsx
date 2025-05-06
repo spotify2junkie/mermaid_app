@@ -14,50 +14,62 @@ export function MermaidDiagram({ code }: MermaidDiagramProps) {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    // Initialize mermaid with theme settings
-    mermaid.initialize({
-      startOnLoad: true,
-      theme: theme === 'dark' ? 'dark' : 'default',
-      securityLevel: 'loose', // Allows clickable links in diagrams
-      fontFamily: 'sans-serif',
-    });
-
-    const renderDiagram = async () => {
-      if (!containerRef.current || !code) return;
-
+    if (code) {
       try {
-        // Clear previous content and error
-        containerRef.current.innerHTML = '';
-        setError(null);
+        const element = containerRef.current;
+        if (element) {
+          element.innerHTML = '';
 
-        // Generate a unique ID for this render
-        const id = `mermaid-${Math.random().toString(36).substring(2, 11)}`;
+          // Check if we're in dark mode
+          const isDarkMode = theme === 'dark';
 
-        // Render the new diagram
-        const { svg } = await mermaid.render(id, code);
-        containerRef.current.innerHTML = svg;
+          // Configure mermaid with appropriate theme
+          mermaid.initialize({
+            startOnLoad: false,
+            theme: isDarkMode ? 'dark' : 'default',
+            darkMode: isDarkMode,
+            themeVariables: isDarkMode ? {
+              // Custom dark theme variables with better contrast
+              primaryColor: '#6366f1',
+              primaryTextColor: '#ffffff',
+              primaryBorderColor: '#8b5cf6',
+              lineColor: '#d1d5db',
+              secondaryColor: '#475569',
+              tertiaryColor: '#1e293b',
+              // Improve node colors for better visibility on dark backgrounds
+              nodeBorder: '#93c5fd',
+              nodeBkg: '#334155',
+              nodeTextColor: '#ffffff',
+              // Background should be transparent to work with page background
+              background: 'transparent',
+            } : {
+              // Custom light theme variables
+              primaryColor: '#6366f1',
+              primaryTextColor: '#000000',
+              primaryBorderColor: '#8b5cf6',
+              lineColor: '#334155',
+              secondaryColor: '#e2e8f0',
+              tertiaryColor: '#f8fafc',
+              nodeBorder: '#7c3aed',
+              nodeBkg: '#ffffff',
+              nodeTextColor: '#000000',
+            }
+          });
 
-        // Make the SVG responsive
-        const svgElement = containerRef.current.querySelector('svg');
-        if (svgElement) {
-          svgElement.style.width = '100%';
-          svgElement.style.height = 'auto';
-          svgElement.style.maxWidth = '100%';
-
-          // Add an id to make it easier to find for download
-          svgElement.id = 'mermaid-diagram-svg';
-
-          // Add appropriate ARIA attributes for accessibility
-          svgElement.setAttribute('aria-label', 'Mermaid diagram visualization');
-          svgElement.setAttribute('role', 'img');
+          mermaid.render('mermaid-svg', code)
+            .then(({ svg }) => {
+              element.innerHTML = svg;
+            })
+            .catch((error) => {
+              console.error('Mermaid rendering error:', error);
+              setError('Error rendering diagram: ' + error.message);
+            });
         }
-      } catch (err) {
-        console.error('Error rendering Mermaid diagram:', err);
-        setError('Failed to render diagram. Please check if your Mermaid syntax is valid.');
+      } catch (error) {
+        console.error('Mermaid initialization error:', error);
+        setError('Error initializing diagram renderer');
       }
-    };
-
-    renderDiagram();
+    }
   }, [code, theme]);
 
   if (error) {
@@ -70,10 +82,12 @@ export function MermaidDiagram({ code }: MermaidDiagramProps) {
   }
 
   return (
-    <div
-      ref={containerRef}
-      className="w-full h-full flex items-center justify-center overflow-auto"
-      aria-live="polite"
-    />
+    <div className="mermaid-container">
+      {error ? (
+        <div className="error-message">{error}</div>
+      ) : (
+        <div ref={containerRef} className="mermaid"></div>
+      )}
+    </div>
   );
 }

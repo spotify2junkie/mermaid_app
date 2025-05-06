@@ -10,7 +10,7 @@ Build a Next.js web application allowing users to input text and generate Mermai
 * **Styling:** Tailwind CSS ✅
 * **State Management:** React Hooks or a dedicated library (Zustand, Redux Toolkit). ✅
 * **Mermaid Rendering:** `mermaid` npm package. ✅
-* **Theme Switching:** `next-themes` package. ❌ (Not working correctly - theme toggle is unresponsive)
+* **Theme Switching:** `next-themes` package. ✅ (Fixed - proper theme integration with Mermaid diagrams)
 * **LLM Interaction:** Next.js API Route, LLM API (e.g., OpenAI, Gemini, Claude). ✅
 * **Image Generation:** Browser Canvas API (+ potentially `canvg` library). ❌ (PNG download not functioning)
 
@@ -34,14 +34,13 @@ Build a Next.js web application allowing users to input text and generate Mermai
 4.  **Output Area (Right Column):** ✅
     * Add a placeholder HTML div element where the Mermaid diagram will eventually be rendered. Apply minimal styling (like a border) for visibility during development. ✅
 
-### Step 3.3: Implement Dark/Light Mode ❌
+### Step 3.3: Implement Dark/Light Mode ✅
 
 1.  **Theme Provider:** Create a client-side Theme Provider component wrapping the functionality from the `next-themes` library. Ensure it handles component mounting correctly to prevent hydration errors. ✅
 2.  **Integrate Provider:** Apply the created Theme Provider component within the application's root layout structure. ✅
 3.  **Theme Toggle:** Create a separate, reusable component that allows users to switch between available themes (Light, Dark, System). Place this toggle component in a suitable UI location (e.g., application header). ✅
 4.  **Apply Styles:** Utilize Tailwind's `dark:` variant prefix within CSS classes throughout the application to define specific styles for dark mode. ✅
-
-**⚠️ Implementation Issue:** The theme toggle functionality is not working properly. The CSS implementation using `prefers-color-scheme` media query doesn't properly work with manual toggling. Need to modify the CSS to use a class-based approach that will work with the ThemeToggle component. Current implementation relies on system preference only.
+5.  **Theme Integration with Mermaid:** Updated the Mermaid component to properly handle theme changes with custom theme variables for better color contrast and readability in both light and dark modes. ✅
 
 ### Step 3.4: Set Up State Management ✅
 
@@ -83,7 +82,7 @@ Build a Next.js web application allowing users to input text and generate Mermai
     * Interact with the imported `mermaid` library's API functions to initialize and render the diagram based on the provided code string. Target a specific DOM element (managed via `useRef`) as the rendering container. ✅
     * Implement error handling to catch and display issues that might arise during Mermaid's parsing or rendering phases. ✅
     * Ensure the rendering container is appropriately cleared before attempting to render a new diagram to prevent content overlap. ✅
-    * **Theme Sync:** Enhance the component to detect the application's current theme (using `next-themes` hooks) and configure the Mermaid renderer to use a matching theme for visual consistency. ✅
+    * **Theme Sync:** Enhanced the component to detect the application's current theme (using `next-themes` hooks) and configure the Mermaid renderer to use custom theme variables for better visual consistency and readability in both light and dark modes. ✅
 4.  **Integration:** Incorporate this Mermaid rendering component into the right-hand column of the main page layout. Pass the `mermaidCode` state variable to its input prop. Implement conditional rendering logic on the main page to display either a loading indicator, an error message, or the Mermaid component itself, based on the current states. ✅
 
 ### Step 3.8: Add Copy and Download Features ❌
