@@ -4,7 +4,6 @@ import { useState, useRef } from 'react'
 import { ThemeToggle } from '@/components/ThemeToggle'
 import { MermaidDiagram } from '@/components/MermaidDiagram'
 import { ClipboardDocumentIcon, ArrowDownTrayIcon } from '@heroicons/react/24/outline'
-import { RiRobot2Fill } from 'react-icons/ri'
 import { BeakerIcon } from '@heroicons/react/24/solid'
 
 export default function Home() {
